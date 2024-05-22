@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        GOOGLE_APPLICATION_CREDENTIALS = 'path/to/service-account-key.json'
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('rga-assessment')
     }
 
     stages {
