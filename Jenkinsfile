@@ -37,7 +37,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'gsutil -m rsync -R dist/ gs://${BUCKET_NAME}'
+                sh 'gsutil -m rsync -R dist/ gs://97a2c0d787f823a2-boba-bucket'
             }
         }
     }
