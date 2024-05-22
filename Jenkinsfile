@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    tools {nodejs "Node"}
 
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = 'path/to/service-account-key.json'
