@@ -15,9 +15,8 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'cd boba-app'
-                sh 'npm install'
-                sh 'npm run build'
+                sh 'cd boba-app && npm install'
+                sh 'cd boba-app && npm run build'
             }
         }
 
