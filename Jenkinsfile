@@ -1,19 +1,40 @@
-DO SOMETHING HERE
+pipeline {
+    agent any
 
-ASDK LASD KL SDJAS DLKJ
+    environment {
+        GOOGLE_APPLICATION_CREDENTIALS = 'path/to/service-account-key.json'
+    }
 
-ASDSADAS ASD ASD 
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/pierredsouza/boba.git'
+            }
+        }
 
-ASDA LJHDASKJ DAHSKD ASKJDH ASJKDHA
+        stage('Build') {
+            steps {
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
 
-LKJASD JASLKD JALSKDJ KASD JKLASDJAK SLDSAD
+        stage('Terraform Init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
 
+        stage('Terraform Apply') {
+            steps {
+                sh 'terraform apply -auto-approve'
+            }
+        }
 
-ASKDJLASLKJ DLKASJDKLSAJDLKASJDKLASJDAS
-
- AS:LFK SA:LKD:LSAKDAS DJAS
-
- AJWDLKJASD JASLKDJASLKDJLKSADJSA
-
-
-ASKJLD ALSJDKL AJSKLDJLKDSAJ
+        stage('Deploy') {
+            steps {
+                sh 'gsutil -m rsync -R dist/ gs://${BUCKET_NAME}'
+            }
+        }
+    }
+}
