@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        GOOGLE_APPLICATION_CREDENTIALS = credentials('rga-assessment')
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('rga-tech-key')
     }
 
     stages {
