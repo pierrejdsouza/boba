@@ -1,6 +1,9 @@
 pipeline {
     agent any
-    tools {nodejs "Node"}
+    tools {
+        nodejs "Node"
+        terraform "Terraform"
+    }
 
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = 'path/to/service-account-key.json'
