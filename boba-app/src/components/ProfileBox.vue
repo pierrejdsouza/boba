@@ -17,6 +17,11 @@
         and leading significant cloud migration and modernization projects, ensuring seamless transitions and 
         operational excellence.
       </p>
+      <p>
+        As a seasoned Solutions Architect, I have built and led platform engineering teams, fostering a DevOps culture that
+        emphasizes continuous innovation and improvement. My leadership focuses on mentoring talent and leveraging cutting-edge 
+        technologies to address complex business challenges, enhancing efficiency and driving competitive advantage.
+      </p>
     </div>
     <div class="cat-gallery">
       <div class="cat-item" v-for="(cat, index) in cats" :key="index">
