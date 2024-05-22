@@ -35,7 +35,7 @@ export default {
       cats: [
         { src: 'toby.jpg', name: 'Cat 1', caption: 'Toby' },
         { src: 'kechik.jpg', name: 'Cat 2', caption: 'Kechik' },
-        { src: 'oreo.jpg', name: 'Cat 3', caption: 'Oreo' }
+        { src: 'oreo.jpg', name: 'Cat 3', caption: 'Oreo Loreo' }
       ]
     };
   }
