@@ -5,10 +5,10 @@ terraform {
       version = "5.29.1"
     }
   }
-#   backend "gcs" {
-#    bucket  = "boba-bucket-tfstate"
-#    prefix  = "terraform/state"
-#  }
+  backend "gcs" {
+   bucket  = "boba-bucket-tfstate"
+   prefix  = "terraform/state"
+ }
 }
 
 provider "google" {

@@ -20,6 +20,11 @@ resource "google_storage_bucket" "bucket_1" {
   storage_class               = "STANDARD"
   // delete bucket and contents on destroy.
   force_destroy = true
+
+  website {
+    main_page_suffix = "index.html"
+    not_found_page   = "404.html"
+  }
 }
 
 # Make buckets public
