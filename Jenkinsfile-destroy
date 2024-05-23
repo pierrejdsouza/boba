@@ -19,6 +19,7 @@ pipeline {
 
         stage('Build') {
             steps {
+                sh 'terraform init -reconfigure'
                 sh 'terraform destroy -auto-approve'
             }
         }
