@@ -45,6 +45,7 @@ pipeline {
         }
 
         stage('Build') {
+            when { expression { !appChanges.isEmpty() } }
             steps {
                 sh 'cd boba-app && npm install'
                 sh 'cd boba-app && npm run build'
@@ -52,6 +53,7 @@ pipeline {
         }
 
         stage('Deploy') {
+            when { expression { !appChanges.isEmpty() } }
             steps {
                 sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                 sh 'cd boba-app && gsutil -m rsync -r dist/ gs://20240524-boba-bucket/'
