@@ -8,13 +8,13 @@ resource "google_storage_bucket" "default" {
   }
 }
 
-# Create Cloud Storage buckets
-resource "random_id" "bucket_prefix" {
-  byte_length = 8
-}
+# # Create Cloud Storage buckets
+# resource "random_id" "bucket_prefix" {
+#   byte_length = 8
+# }
 
 resource "google_storage_bucket" "bucket_1" {
-  name                        = "${random_id.bucket_prefix.hex}-boba-bucket"
+  name                        = "20240524-boba-bucket"
   location                    = "ASIA"
   uniform_bucket_level_access = true
   storage_class               = "STANDARD"
@@ -41,13 +41,13 @@ resource "google_compute_global_address" "default" {
 
 # Create LB backend buckets
 resource "google_compute_backend_bucket" "bucket_1" {
-  name        = "boba"
+  name        = "boba-backend"
   bucket_name = google_storage_bucket.bucket_1.name
 }
 
 # Create url map
 resource "google_compute_url_map" "default" {
-  name = "http-lb"
+  name = "boba-http-lb"
 
   default_service = google_compute_backend_bucket.bucket_1.id
 

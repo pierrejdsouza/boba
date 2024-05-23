@@ -7,6 +7,7 @@ pipeline {
 
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('rga-sa')
+        GIT_TOKEN = credentials('git-pat')
     }
 
     stages {
@@ -38,7 +39,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
-                sh 'cd boba-app && gsutil -m rsync -r dist/ gs://97a2c0d787f823a2-boba-bucket/'
+                sh 'cd boba-app && gsutil -m rsync -r dist/ gs://20240524-boba-bucket/'
             }
         }
     }
