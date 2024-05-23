@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    tools {
+        nodejs "Node"
+        terraform "Terraform"
+    }
+
+    environment {
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('rga-sa')
+        GIT_TOKEN = credentials('git-pat')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'terraform destroy -auto-approve'
+            }
+        }
+    }
+}
