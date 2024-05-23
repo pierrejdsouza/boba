@@ -29,23 +29,8 @@ pipeline {
             }
         }
 
-        stage('Check for changes in app') {
-            steps {
-                script {
-                    // Check if there are changes in the 'boba-app' directory
-                    def appChanges = sh(script: 'git diff --name-only HEAD@{1} -- boba-app', returnStdout: true).trim()
-
-                    if (appChanges.isEmpty()) {
-                        echo 'No changes detected in app or directory. Skipping pipeline execution.'
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                }
-            }
-        }
-
         stage('Build') {
-            when { expression { !appChanges.isEmpty() } }
+            when { changeset "boba-app/*" }
             steps {
                 sh 'cd boba-app && npm install'
                 sh 'cd boba-app && npm run build'
@@ -53,7 +38,7 @@ pipeline {
         }
 
         stage('Deploy') {
-            when { expression { !appChanges.isEmpty() } }
+            when { changeset "boba-app/*" }
             steps {
                 sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                 sh 'cd boba-app && gsutil -m rsync -r dist/ gs://20240524-boba-bucket/'
