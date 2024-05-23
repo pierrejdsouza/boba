@@ -17,13 +17,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh 'cd boba-app && npm install'
-                sh 'cd boba-app && npm run build'
-            }
-        }
-
         stage('Terraform Init') {
             steps {
                 sh 'terraform init'
@@ -33,6 +26,28 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 sh 'terraform apply -auto-approve'
+            }
+        }
+
+        stage('Check for changes in app') {
+            steps {
+                script {
+                    // Check if there are changes in the 'boba-app' directory
+                    def appChanges = sh(script: 'git diff --name-only HEAD@{1} -- boba-app', returnStdout: true).trim()
+
+                    if (appChanges.isEmpty() && terraformChanges.isEmpty()) {
+                        echo 'No changes detected in app or directory. Skipping pipeline execution.'
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'cd boba-app && npm install'
+                sh 'cd boba-app && npm run build'
             }
         }
 
