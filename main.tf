@@ -13,6 +13,8 @@ resource "google_storage_bucket" "default" {
 #   byte_length = 8
 # }
 
+# Creating a comment, no changes to the app
+
 resource "google_storage_bucket" "bucket_1" {
   name                        = "20240524-boba-bucket"
   location                    = "ASIA"
