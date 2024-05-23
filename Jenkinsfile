@@ -35,7 +35,7 @@ pipeline {
                     // Check if there are changes in the 'boba-app' directory
                     def appChanges = sh(script: 'git diff --name-only HEAD@{1} -- boba-app', returnStdout: true).trim()
 
-                    if appChanges.isEmpty() {
+                    if (appChanges.isEmpty()) {
                         echo 'No changes detected in app or directory. Skipping pipeline execution.'
                         currentBuild.result = 'SUCCESS'
                         return

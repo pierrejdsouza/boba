@@ -40,7 +40,7 @@ export default {
       cats: [
         { src: 'toby.jpg', name: 'Cat 1', caption: 'Toby / Miming' },
         { src: 'kechik.jpg', name: 'Cat 2', caption: 'Mel /Kechik' },
-        { src: 'oreo.jpg', name: 'Cat 3', caption: 'Oreo / Loreo' }
+        { src: 'oreo.jpg', name: 'Cat 3', caption: 'Oreo / Loleo' }
       ]
     };
   }
