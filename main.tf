@@ -80,5 +80,5 @@ resource "google_compute_global_forwarding_rule" "default" {
 }
 
 output "web_url" {
-  value = "google_compute_global_forwarding_rule.default.ip_address"
+  value = google_compute_global_forwarding_rule.default.ip_address
 }
