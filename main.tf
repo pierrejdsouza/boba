@@ -43,6 +43,7 @@ resource "google_compute_global_address" "default" {
 resource "google_compute_backend_bucket" "bucket_1" {
   name        = "boba-backend"
   bucket_name = google_storage_bucket.bucket_1.name
+  security_policy = google_compute_security_policy.cloud_armor_policy.id
 }
 
 # Create url map
@@ -75,6 +76,65 @@ resource "google_compute_global_forwarding_rule" "default" {
   port_range            = "80"
   target                = google_compute_target_http_proxy.default.id
   ip_address            = google_compute_global_address.default.id
+}
+
+# Create a Cloud Armor security policy with OWASP rules
+resource "google_compute_security_policy" "cloud_armor_policy" {
+  name        = "boba-cloud-armor-policy"
+  description = "Cloud Armor security policy with OWASP rules"
+
+  # OWASP Core Rule Set
+  rule {
+    description = "XSS rule"
+    priority    = 2000
+    action      = "deny(403)"
+    match {
+      versioned_expr = "SRC_IPS_V1"
+      config {
+        src_ip_ranges = ["*"]
+      }
+    }
+    preconfigured_expr = "owasp-crs-v030001-rules.v2/xss-detection.xml"
+  }
+
+  rule {
+    description = "SQL Injection rule"
+    priority    = 2001
+    action      = "deny(403)"
+    match {
+      versioned_expr = "SRC_IPS_V1"
+      config {
+        src_ip_ranges = ["*"]
+      }
+    }
+    preconfigured_expr = "owasp-crs-v030001-rules.v2/sql-injection-detection.xml"
+  }
+
+  rule {
+    description = "Path Traversal rule"
+    priority    = 2002
+    action      = "deny(403)"
+    match {
+      versioned_expr = "SRC_IPS_V1"
+      config {
+        src_ip_ranges = ["*"]
+      }
+    }
+    preconfigured_expr = "owasp-crs-v030001-rules.v2/path-traversal.xml"
+  }
+
+  rule {
+    description = "Remote File Inclusion rule"
+    priority    = 2003
+    action      = "deny(403)"
+    match {
+      versioned_expr = "SRC_IPS_V1"
+      config {
+        src_ip_ranges = ["*"]
+      }
+    }
+    preconfigured_expr = "owasp-crs-v030001-rules.v2/remote-file-inclusion.xml"
+  }
 }
 
 output "web_url" {
