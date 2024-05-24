@@ -1,20 +1,18 @@
+# Create our terraform state bucket
 resource "google_storage_bucket" "default" {
   name          = "boba-bucket-tfstate"
   force_destroy = false
   location      = "ASIA"
   storage_class = "STANDARD"
+  public_access_prevention = "enforced"
   versioning {
     enabled = true
   }
 }
 
-# # Create Cloud Storage buckets
-# resource "random_id" "bucket_prefix" {
-#   byte_length = 8
-# }
-
 # Creating a comment, no changes to the app but changes in other files
 
+# Create our static website bucket
 resource "google_storage_bucket" "bucket_1" {
   name                        = "20240524-boba-bucket"
   location                    = "ASIA"
