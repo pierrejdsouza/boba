@@ -1,5 +1,7 @@
 # Boba - temp project
 
+![alt text](image.png)
+
 ## Description
 This project utilizes Jenkins for CI/CD and Terraform for infrastructure management on Google Cloud Platform (GCP).
 
