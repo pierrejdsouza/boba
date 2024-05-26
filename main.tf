@@ -1,5 +1,5 @@
 resource "google_kms_key_ring" "tf_states" {
-  name     = "tfstate-key-ring-test-02"
+  name     = "tfstate-key-ring-test-01"
   location = "asia"
 
   # lifecycle {
@@ -8,7 +8,7 @@ resource "google_kms_key_ring" "tf_states" {
 }
 
 resource "google_kms_crypto_key" "tf_states" {
-  name            = "tfstate-key-03"
+  name            = "tfstate-key-01"
   key_ring        = google_kms_key_ring.tf_states.id
   rotation_period = "100000s"
 
