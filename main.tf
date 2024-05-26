@@ -1,3 +1,29 @@
+resource "google_kms_key_ring" "tf_states" {
+  name     = "tfstate-key-ring-test-02"
+  location = "asia"
+
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
+resource "google_kms_crypto_key" "tf_states" {
+  name            = "tfstate-key-03"
+  key_ring        = google_kms_key_ring.tf_states.id
+  rotation_period = "100000s"
+
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
+resource "google_kms_crypto_key_iam_binding" "binding" {
+  crypto_key_id = google_kms_crypto_key.tf_states.id
+  role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = ["serviceAccount:service-253750488491@gs-project-accounts.iam.gserviceaccount.com"]
+}
+
 # Create our terraform state bucket
 resource "google_storage_bucket" "default" {
   name          = "boba-bucket-tfstate"
@@ -8,9 +34,9 @@ resource "google_storage_bucket" "default" {
   versioning {
     enabled = true
   }
-  # encryption {
-  #   default_kms_key_name = "boba-state-key"
-  # }
+  encryption {
+    default_kms_key_name = google_kms_crypto_key.tf_states.id
+  }
   # lifecycle {
   #   prevent_destroy = true
   # }
