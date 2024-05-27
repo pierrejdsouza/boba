@@ -1,3 +1,4 @@
+# Create a key ring for terraform state bucket
 resource "google_kms_key_ring" "tf_states" {
   name     = "tfstate-key-ring-test-01"
   location = "asia"
@@ -7,9 +8,10 @@ resource "google_kms_key_ring" "tf_states" {
   # }
 }
 
+# Create a key within the key ring for terraform state bucket
 resource "google_kms_crypto_key" "tf_states" {
-  name            = "tfstate-key-01"
-  key_ring        = google_kms_key_ring.tf_states.id
+  name = "tfstate-key-01"
+  key_ring = google_kms_key_ring.tf_states.id
   rotation_period = "100000s"
 
   # lifecycle {
@@ -17,8 +19,37 @@ resource "google_kms_crypto_key" "tf_states" {
   # }
 }
 
+# Create a key ring for static website content
+resource "google_kms_key_ring" "boba_sw" {
+  name = "boba-content-key-ring-test-01"
+  location = "asia"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# Create a key within the key ring for static website content
+resource "google_kms_crypto_key" "boba_sw" {
+  name = "bobac-key-01"
+  key_ring = google_kms_key_ring.boba_sw.id
+  rotation_period = "100000s"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# Create binding so storage can encrypt and decrypt using our keys for both buckets
 resource "google_kms_crypto_key_iam_binding" "binding" {
   crypto_key_id = google_kms_crypto_key.tf_states.id
+  role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = ["serviceAccount:service-253750488491@gs-project-accounts.iam.gserviceaccount.com"]
+}
+
+resource "google_kms_crypto_key_iam_binding" "swbinding" {
+  crypto_key_id = google_kms_crypto_key.boba_sw.id
   role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
 
   members = ["serviceAccount:service-253750488491@gs-project-accounts.iam.gserviceaccount.com"]
@@ -56,6 +87,9 @@ resource "google_storage_bucket" "bucket_1" {
   website {
     main_page_suffix = "index.html"
     not_found_page   = "404.html"
+  }
+  encryption {
+    default_kms_key_name = google_kms_crypto_key.boba_swid
   }
 }
 
