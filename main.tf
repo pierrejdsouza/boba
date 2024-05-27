@@ -24,9 +24,9 @@ resource "google_kms_key_ring" "boba_sw" {
   name = "boba-content-key-ring-test-01"
   location = "asia"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 # Create a key within the key ring for static website content
@@ -35,9 +35,9 @@ resource "google_kms_crypto_key" "boba_sw" {
   key_ring = google_kms_key_ring.boba_sw.id
   rotation_period = "100000s"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 # Create binding so storage can encrypt and decrypt using our keys for both buckets
