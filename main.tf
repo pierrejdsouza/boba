@@ -89,7 +89,7 @@ resource "google_storage_bucket" "bucket_1" {
     not_found_page   = "404.html"
   }
   encryption {
-    default_kms_key_name = google_kms_crypto_key.boba_swid
+    default_kms_key_name = google_kms_crypto_key.boba_sw.id
   }
 }
 
