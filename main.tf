@@ -1,6 +1,6 @@
 # Create a key ring for terraform state bucket
 resource "google_kms_key_ring" "tf_states" {
-  name     = "tfstate-key-ring-test-02"
+  name     = "tfstate-key-ring-test-03"
   location = "asia"
 
   # lifecycle {
@@ -21,7 +21,7 @@ resource "google_kms_crypto_key" "tf_states" {
 
 # Create a key ring for static website content
 resource "google_kms_key_ring" "boba_sw" {
-  name = "boba-content-key-ring-test-02"
+  name = "boba-content-key-ring-test-03"
   location = "asia"
 
   # lifecycle {
