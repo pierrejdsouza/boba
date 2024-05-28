@@ -68,6 +68,7 @@ resource "google_storage_bucket" "default" {
   encryption {
     default_kms_key_name = google_kms_crypto_key.tf_states.id
   }
+  depends_on = [google_kms_crypto_key_iam_binding.binding]
   # lifecycle {
   #   prevent_destroy = true
   # }
@@ -91,6 +92,7 @@ resource "google_storage_bucket" "bucket_1" {
   encryption {
     default_kms_key_name = google_kms_crypto_key.boba_sw.id
   }
+  depends_on = [google_kms_crypto_key_iam_binding.swbinding]
 }
 
 # Make buckets public
